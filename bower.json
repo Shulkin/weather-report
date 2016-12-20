@@ -25,6 +25,10 @@
     "jquery": "^3.1.1",
     "bootstrap": "^3.3.7",
     "angular": "^1.6.0",
-    "angular-ui-router": "^0.3.2"
+    "angular-ui-router": "^0.3.2",
+    "angular-openlayers-directive": "^1.18.0"
+  },
+  "resolutions": {
+    "angular": "1.4.9"
   }
 }
