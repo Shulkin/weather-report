@@ -3,5 +3,7 @@ angular.module("weather.data.service", [])
   // === Private ===
   // === Public ===
   return {
+    getWeatherByCityName: function(cities) {
+    }
   };
 }]);

@@ -1,5 +1,6 @@
 angular.module("map.ctrl", ["openlayers-directive"])
-.controller("MapCtrl", ["WeatherData", function(WeatherData) {
+.controller("MapCtrl", ["Cities", "WeatherData",
+  function(Cities, WeatherData) {
   // === Variables ===
   var vm = this;
   // default center of the map
