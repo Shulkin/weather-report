@@ -2,7 +2,7 @@ angular.module("weather.data.service", [])
 .factory("WeatherData", ["OWM_API_KEY", "$http",
   function(OWM_API_KEY, $http) {
   // === Private ===
-  var url = "http://api.openweathermap.org/data/2.5";
+  var url = "http://api.openweathermap.org/data/2.5/";
   // Examples
   // Get 5d/3h forecast in single city, by city name, in JSON
   // http://api.openweathermap.org/data/2.5/forecast?q=London,us&mode=json&appid=1ba7401f0fd8de8800f868d0400afc44
@@ -17,12 +17,12 @@ angular.module("weather.data.service", [])
   // === Public ===
   return {
     getWeatherById: function(data) {
-      return $http.get(url + "group?id=" + data + "&appid=" + OWM_API_KEY).then(function(response) {
+      return $http.get(url + "group?id=" + data + "&units=metric" + "&appid=" + OWM_API_KEY).then(function(response) {
         return response.data;
       });
     },
     getForecastById: function(id) {
-      return $http.get(url + "weather?id=" + id + "&appid=" + OWM_API_KEY).then(function(response) {
+      return $http.get(url + "weather?id=" + id + "&units=metric" + "&appid=" + OWM_API_KEY).then(function(response) {
         return response.data;
       });
     }

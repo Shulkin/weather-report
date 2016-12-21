@@ -16,20 +16,6 @@ angular.module("map.ctrl", ["openlayers-directive"])
     active: true,
     source: {type: 'OSM'}
   }];
-  /*
-  vm.markers = [
-    {
-      name: "eiffel",
-      lat: 48.858093,
-      lon: 2.294694,
-      label: {
-        message: '<img src="images/eiffel.jpg" />',
-        show: false,
-        showOnMouseOver: true
-      }
-    }
-  ];
-  */
   // === Private ===
   // constructor
   function init() {
@@ -38,8 +24,28 @@ angular.module("map.ctrl", ["openlayers-directive"])
     // get weather for all cities in Primorsky region
     WeatherData.getWeatherById(Cities.toString(Cities.all()))
     .then(function(data) {
-      // fill up markers
-      console.log("Data " + data);
+      // parse JSON response
+      var list = data.list;
+      for (var i = 0; i < list.length; i++) {
+        // fill up marker
+        var marker = {};
+        marker.name = list[i].name;
+        // coordinates
+        marker.lat = list[i].coord.lat;
+        marker.lon = list[i].coord.lon;
+        // general weather in JSON format
+        marker.weather = list[i].weather[0];
+        // create popup label
+        var temperature = Math.round(list[i].main.temp);
+        marker.label = {
+          show: true, // always show
+          // temperature, city name
+          message: temperature + " °C" + " | " + "<b>" + marker.name + "</b>"
+        };
+        // push to markers array
+        vm.markers.push(marker);
+      }
+      // console.log(JSON.stringify(data));
     }, function(err) {
       console.log("Error " + err);
     });
