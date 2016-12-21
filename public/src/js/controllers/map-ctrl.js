@@ -9,9 +9,27 @@ angular.module("map.ctrl", ["openlayers-directive"])
     zoom: 6
   };
   // layers list
-  vm.layers = []; // empty
+  vm.layers = [{
+    // OpenStreetMap basemap
+    name: 'OpenStreetMap',
+    active: true,
+    source: {type: 'OSM'}
+  }];
   // markers on map
-  vm.markers = []; // empty
+  vm.markers = [
+    /*
+    {
+      name: "eiffel",
+      lat: 48.858093,
+      lon: 2.294694,
+      label: {
+        message: '<img src="images/eiffel.jpg" />',
+        show: false,
+        showOnMouseOver: true
+      }
+    }
+    */
+  ]; // empty
   // === Private ===
   // constructor
   function init() {
