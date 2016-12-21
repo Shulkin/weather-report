@@ -16,9 +16,8 @@ angular.module("map.ctrl", ["openlayers-directive"])
     active: true,
     source: {type: 'OSM'}
   }];
-  // markers on map
+  /*
   vm.markers = [
-    /*
     {
       name: "eiffel",
       lat: 48.858093,
@@ -29,11 +28,21 @@ angular.module("map.ctrl", ["openlayers-directive"])
         showOnMouseOver: true
       }
     }
-    */
-  ]; // empty
+  ];
+  */
   // === Private ===
   // constructor
   function init() {
+    // markers on map
+    vm.markers = []; // empty
+    // get weather for all cities in Primorsky region
+    WeatherData.getWeatherById(Cities.toString(Cities.all()))
+    .then(function(data) {
+      // fill up markers
+      console.log("Data " + data);
+    }, function(err) {
+      console.log("Error " + err);
+    });
   }
   // === Start module ===
   init();
