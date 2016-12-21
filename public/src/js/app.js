@@ -4,5 +4,7 @@ var app = angular.module("app", [
   // app states
   "app.routes",
   // map controller
-  "map.ctrl"
+  "map.ctrl",
+  // service to get actual weather data
+  "weather.data.service"
 ]);
