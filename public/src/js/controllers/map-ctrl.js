@@ -17,6 +17,17 @@ angular.module("map.ctrl", ["openlayers-directive"])
     source: {type: 'OSM'}
   }];
   // === Private ===
+  // create new object for custom marker style
+  function getMarkerStyle(iconCode) {
+    return {image: {icon: {
+      anchor: [0.5, 0.95],
+      anchorXUnits: "fraction",
+      anchorYUnits: "fraction",
+      opacity: 0.9,
+      // set marker icon
+      icon: "http://openweathermap.org/img/w/" + iconCode + ".png"
+    }}};
+  }
   // constructor
   function init() {
     // markers on map
@@ -42,19 +53,8 @@ angular.module("map.ctrl", ["openlayers-directive"])
           // temperature, city name
           message: temperature + " °C" + " | " + "<b>" + marker.name + "</b>"
         };
-        // custom icon
-        var iconCode = "01d.png";
-        marker.style = {
-          image: {
-            icon: {
-              anchor: [0.5, 0.95],
-              anchorXUnits: "fraction",
-              anchorYUnits: "fraction",
-              opacity: 0.9,
-              src: "http://openweathermap.org/img/w/" + iconCode
-            }
-          }
-        };
+        // get icon by weather code
+        marker.style = getMarkerStyle(marker.weather.icon);
         // push to markers array
         vm.markers.push(marker);
       }
