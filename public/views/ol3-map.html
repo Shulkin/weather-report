@@ -5,7 +5,7 @@
     ng-repeat="layer in map.layers|filter: {active: true}">
   </ol-layer>
   <!-- Print all markers -->
-  <ol-marker ol-marker-properties="marker"
+  <ol-marker ol-marker-properties="marker" ol-style="marker.style"
     ng-repeat="marker in map.markers">
   </ol-marker>
 </openlayers>

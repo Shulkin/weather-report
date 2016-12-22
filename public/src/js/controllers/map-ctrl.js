@@ -42,6 +42,19 @@ angular.module("map.ctrl", ["openlayers-directive"])
           // temperature, city name
           message: temperature + " °C" + " | " + "<b>" + marker.name + "</b>"
         };
+        // custom icon
+        var iconCode = "01d.png";
+        marker.style = {
+          image: {
+            icon: {
+              anchor: [0.5, 0.95],
+              anchorXUnits: "fraction",
+              anchorYUnits: "fraction",
+              opacity: 0.9,
+              src: "http://openweathermap.org/img/w/" + iconCode
+            }
+          }
+        };
         // push to markers array
         vm.markers.push(marker);
       }
