@@ -20,12 +20,11 @@ angular.module("map.ctrl", ["openlayers-directive"])
   // create new object for custom marker style
   function getMarkerStyle(iconCode) {
     return {image: {icon: {
-      anchor: [0.5, 0.95],
-      anchorXUnits: "fraction",
-      anchorYUnits: "fraction",
-      opacity: 0.9,
-      // set marker icon
-      icon: "http://openweathermap.org/img/w/" + iconCode + ".png"
+      // determine anchor units
+      anchorXUnits: "fraction", anchorYUnits: "fraction",
+      anchor: [0.5, 0.95], opacity: 0.9, // position and opacity
+      // get weather icon for marker style
+      icon: WeatherData.getWeatherIconUrl(iconCode)
     }}};
   }
   // constructor

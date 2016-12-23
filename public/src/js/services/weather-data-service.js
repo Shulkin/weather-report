@@ -1,27 +1,9 @@
 angular.module("weather.data.service", [])
-/*
-.value("WEATHER_CONDITION_CODES", [
-  // group codes [from, to]
-  {group: [200, 232], icon: "11"}, // thunderstorm
-  {group: [300, 321], icon: "09"}, // drizzle
-  {group: [500, 504], icon: "10"}, // light rain
-  {group: [511], icon: "13"}, // freezing rain
-  {group: [520, 531], icon: "09"}, // shower rain
-  {group: [600, 622], icon: "13"}, // snow
-  {group: [701, 781], icon: "50"}, // atmosphere
-  {group: [800], icon: "01"}, // clear
-  {group: [801], icon: "02"}, // few clouds
-  {group: [802], icon: "03"}, // scattered clouds
-  {group: [803, 804], icon: "04"}, // overcast clouds
-  {group: [900, 906], icon: ""}, // extreme
-  {group: [951, 962], icon: ""} // additional
-])
-*/
 .factory("WeatherData", ["OWM_API_KEY", "$http",
   function(OWM_API_KEY, $http) {
   // === Private ===
   var url = "http://api.openweathermap.org/data/2.5/";
-  // var icon_url = "http://openweathermap.org/img/w/";
+  var iconUrl = "http://openweathermap.org/img/w/";
   // Examples
   // Get 5d/3h forecast in single city, by city name, in JSON
   // http://api.openweathermap.org/data/2.5/forecast?q=London,us&mode=json&appid=1ba7401f0fd8de8800f868d0400afc44
@@ -44,29 +26,9 @@ angular.module("weather.data.service", [])
       return $http.get(url + "weather?id=" + id + "&units=metric" + "&appid=" + OWM_API_KEY).then(function(response) {
         return response.data;
       });
+    },
+    getWeatherIconUrl: function(iconCode) {
+      return iconUrl + iconCode + ".png";
     }
-    /*,
-    getWeatherIconByCode: function(weatherCode, day) {
-      var iconCode = "01"; // clear sky by default
-      // try to determine which weather icon should we use
-      for (var i = 0; i < WEATHER_CONDITION_CODES.length; i++) {
-        var condition = WEATHER_CONDITION_CODES[i];
-        var group = condition.group;
-        if (group.length < 2) { // only 1 code in range
-          if (group[0] === weatherCode) {
-            iconCode = condition.icon;
-          }
-        } else { // normal range
-          if (group[0] <= weatherCode && weatherCode <= group[1]) {
-            iconCode = condition.icon;
-          }
-        }
-      }
-      // just in case, icon is not provided
-      if (iconCode === "") iconCode = "01";
-      var dayCode = day ? "d" : "n"; // day or night?
-      return icon_url + iconCode + dayCode + ".png";
-    }
-    */
   };
 }]);
