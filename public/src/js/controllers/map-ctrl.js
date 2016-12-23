@@ -22,9 +22,10 @@ angular.module("map.ctrl", ["openlayers-directive"])
     return {image: {icon: {
       // determine anchor units
       anchorXUnits: "fraction", anchorYUnits: "fraction",
-      anchor: [0.5, 0.95], opacity: 0.9, // position and opacity
+      // scale, position and opacity
+      scale: 1.0, anchor: [0.5, 0.95], opacity: 0.9,
       // get weather icon for marker style
-      icon: WeatherData.getWeatherIconUrl(iconCode)
+      src: WeatherData.getWeatherIconUrl(iconCode)
     }}};
   }
   // constructor
@@ -57,7 +58,6 @@ angular.module("map.ctrl", ["openlayers-directive"])
         // push to markers array
         vm.markers.push(marker);
       }
-      // console.log(JSON.stringify(data));
     }, function(err) {
       console.log("Error " + err);
     });
