@@ -1,6 +1,19 @@
 angular.module("ol3.map.ctrl", [])
-.controller("MapCtrl", ["Cities", "WeatherData",
-  function(Cities, WeatherData) {
+.controller("MapCtrl", ["ol3Map",
+  function(ol3Map) {
+  // === Variables ===
+  var vm = this;
+  // === Private ===
+  // constructor
+  function init() {
+    ol3Map.init({
+      // config options
+    });
+  }
+  // === Start module ===
+  init();
+  // === Public ===
+  /*
   // === Variables ===
   var vm = this;
   // default center of the map
@@ -65,4 +78,5 @@ angular.module("ol3.map.ctrl", [])
   // === Start module ===
   init();
   // === Public ===
+  */
 }]);
