@@ -6,7 +6,7 @@ var app = angular.module("app", [
   // app states
   "app.routes",
   // map controller
-  "map.ctrl",
+  "ol3.map.ctrl",
   // list of cities
   "cities.service",
   // service to get actual weather data

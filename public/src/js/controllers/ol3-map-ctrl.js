@@ -1,4 +1,4 @@
-angular.module("map.ctrl", ["openlayers-directive"])
+angular.module("ol3.map.ctrl", [])
 .controller("MapCtrl", ["Cities", "WeatherData",
   function(Cities, WeatherData) {
   // === Variables ===
