@@ -1,6 +1,6 @@
 angular.module("ol3.map.ctrl", [])
-.controller("MapCtrl", ["ol3Map",
-  function(ol3Map) {
+.controller("MapCtrl", ["ol3Map", "Cities",
+  function(ol3Map, Cities) {
   // === Variables ===
   var vm = this;
   // === Private ===
@@ -9,6 +9,7 @@ angular.module("ol3.map.ctrl", [])
     ol3Map.init({
       // config options
     });
+    ol3Map.loadWeather(Cities.all());
   }
   // === Start module ===
   init();
