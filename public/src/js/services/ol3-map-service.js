@@ -7,9 +7,7 @@ angular.module("ol3.map.service", [
   // === Private ===
   var map = {}; // ol.Map
   var defaults = { // options
-    zoom: 6,
-    // Primorsky region
-    startLocation: [134.6, 45.3]
+    zoom: 6
   };
   // === Public ===
   return {
