@@ -1,6 +1,9 @@
-angular.module("ol3.map.service", [])
-.factory("ol3Map", ["Cities", "WeatherData",
-  function(Cities, WeatherData) {
+angular.module("ol3.map.service", [
+  // style for markers on map
+  "marker.style.service",
+])
+.factory("ol3Map", ["Cities", "WeatherData", "Marker",
+  function(Cities, WeatherData, Marker) {
   // === Private ===
   var map = {}; // ol.Map
   var defaults = { // options
@@ -41,38 +44,19 @@ angular.module("ol3.map.service", [])
           var lat = item.coord.lat;
           var lon = item.coord.lon;
           // weather condition
-          var temperature = Math.round(item.main.temp);
-          var labelStyle = new ol.style.Style({
-            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-              opacity: 0.9,
-              src: WeatherData.getWeatherIconUrl(item.weather[0].icon)
-            })),
-            text: new ol.style.Text({
-              textAlign: "center",
-              textBaseline: "middle",
-              font: "17px Arial",
-              text: item.name,
-              fill: new ol.style.Fill({color: "#000000"}),
-              stroke: new ol.style.Stroke({color: "#ffffff", width: 2}),
-              offsetY: 21
-            })
-          });
-          var temperatureStyle = new ol.style.Style({
-            text: new ol.style.Text({
-              textAlign: "left",
-              textBaseline: "middle",
-              font: "17px Arial",
-              text: temperature + " °C",
-              fill: new ol.style.Fill({color: "#000000"}),
-              stroke: new ol.style.Stroke({color: "#ffffff", width: 2}),
-              offsetX: 21
-            })
-          });
           var marker = new ol.Feature({
+            // create marker with corresponding coordinates
             geometry: new ol.geom.Point(ol.proj.transform([lon, lat], "EPSG:4326", "EPSG:3857")),
           });
-          // set multiple styles for city label and temperature
-          marker.setStyle([labelStyle, temperatureStyle]);
+          // set multiple styles
+          marker.setStyle([
+            // text label with city name
+            Marker.getLabelStyle(item.name),
+            // label in left corner for temperature data
+            Marker.getTemperatureStyle(Math.round(item.main.temp) + " °C"),
+            // weather icon
+            Marker.getIconStyle(WeatherData.getWeatherIconUrl(item.weather[0].icon))
+          ]);
           features.push(marker);
         }
         var vectorSource = new ol.source.Vector({features: features});
