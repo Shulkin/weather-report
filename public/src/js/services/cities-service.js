@@ -15,12 +15,11 @@ angular.module("cities.service", [])
         {id: "2027468", name: "Arsenyev"}*/
       ];
     },
-    // extract ids from array of cities and convert to String
-    toString: function(data) {
-      var result = "";
+    // extract ids from array of cities
+    getIds: function(data) {
+      var result = [];
       for (var i = 0; i < data.length; i++) {
-        result += data[i].id;
-        if (i < data.length - 1) result += ",";
+        result.push(data[i].id);
       }
       return result;
     }

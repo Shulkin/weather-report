@@ -6,10 +6,12 @@ angular.module("ol3.map.ctrl", [])
   // === Private ===
   // constructor
   function init() {
+    console.log("Init map");
     ol3Map.init({ // config options
       // Primorsky region
       startLocation: [134.6, 45.3]
     });
+    console.log("Start load weather data");
     ol3Map.loadWeather(Cities.all());
   }
   // === Start module ===

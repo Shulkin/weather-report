@@ -31,8 +31,10 @@ angular.module("ol3.map.service", [
       });
     },
     loadWeather: function(data) {
-      WeatherData.getWeatherById(Cities.toString(data))
+      console.log("Send request to api " + JSON.stringify(data));
+      WeatherData.getWeatherById({cities: Cities.getIds(data)})
       .then(function(data) {
+        console.log("Parse JSON response " + JSON.stringify(data));
         // parse JSON response
         var list = data.list;
         var features = []; // empty vector features

@@ -10,7 +10,6 @@ module.exports = function(grunt) {
       build: {
         files: {
           "public/dst/js/app.min.js": [
-            "public/src/config/*.js", // config.js
             "public/src/js/**/*.js", // controllers, services and directives
             "public/src/js/*.js" // app.js, app-routes.js
           ]
