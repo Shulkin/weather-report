@@ -14,21 +14,35 @@ router.route("/")
 // get current weather in many cities (POST http://localhost:3000/api/weather)
 .post(function(req, res) {
   var places = req.body.cities.toString();
-  console.log("POST request on backend " + places);
   var request = url + "group?id=" + places + "&units=metric&appid=" + apiKey;
-  console.log("to " + request);
-  http.request(request, function(response) {
-    console.log("Response from backend http...");
-    var data = ""; // JSON
+  http.get(request, function(response) {
+    var statusCode = response.statusCode;
+    var contentType = response.headers["content-type"];
+    var error; // check for errors
+    if (statusCode != 200) {
+      error = new Error(
+        "Request Failed.\n" +
+        "Status Code: ${statusCode}");
+    } else if (!/^application\/json/.test(contentType)) {
+      error = new Error(
+        "Invalid content-type.\n" +
+        "Expected application/json but received ${contentType}");
+    }
+    if (error) { // if not undefined
+      console.log(error.message);
+      response.resume();
+      return;
+    }
+    response.setEncoding("utf8");
+    var rawData = ""; // JSON
     // receive another chunk of data
     response.on("data", function(chunk) {
-      console.log("Receive data chunk " + chunk);
-      data += chunk;
+      rawData += chunk;
     });
     // the whole response has been recieved
     response.on("end", function() {
-      console.log("Received data end " + data);
-      res.json(data);
+      var parsedData = JSON.parse(rawData);
+      res.json(parsedData);
     })
   })
 });

@@ -7,7 +7,7 @@ var app = angular.module("app", [
   "ol3.map.ctrl",
   // map service
   "ol3.map.service",
-  // list of cities
+  // list of places
   "cities.service",
   // service to get actual weather data
   "weather.data.service"
