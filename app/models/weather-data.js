@@ -1,8 +1,8 @@
 var mongoose = require("mongoose");
 // define weather data schema
 var WeatherDataSchema = new mongoose.Schema({
-  // city code
-  cityCode: {type: String, required: true},
+  // id of the place from OpenWeatherMap API
+  owm_id: {type: String, required: true},
   // store JSON data from OWM API as String
   data: {type: String, required: true},
   // timestamps

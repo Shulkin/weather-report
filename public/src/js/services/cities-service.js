@@ -4,8 +4,8 @@ angular.module("cities.service", [])
   return {
     all: function() {
       return [
-        {id: "2013348", name: "Vladivostok"}/*,
-        {id: "2017364", name: "Russkiy"},
+        {id: "2013348", name: "Vladivostok"},
+        {id: "2017364", name: "Russkiy"}/*,
         {id: "2027142", name: "Barabash"},
         {id: "2016430", name: "Slavyanka"},
         {id: "2015310", name: "Fokino"},
