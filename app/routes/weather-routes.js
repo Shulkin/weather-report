@@ -17,9 +17,9 @@ router.route("/")
 .post(function(req, res) {
   var cities = req.body.cities;
   var allPlaces = cities.toString();
-  console.log("Process POST request for [" + allPlaces + "]")
+  console.log("Process POST request for [" + allPlaces + "]");
   //--
-  var responseData = [];
+  var responseData = []; // list for weather data
   console.log("Search weather data in MongoDB...");
   async.each(
     cities, // array of items
@@ -30,22 +30,49 @@ router.route("/")
         if (entry.length > 0) {
           console.log("[" + id + "] Found entry!");
           console.log("[" + id + "] Data = " + JSON.stringify(entry));
-          console.log("[" + id + "] Return to next entry");
-          callback();
+          var updateTime = entry.updated_at;
+          var now = new Date();
+          console.log("[" + id + "] Entry update time is " + updateTime + ", and now is " + now);
+          if (now.getTime() - updateTime.getTime() > 3.6e6) {
+            // more than hour passed since last update from OpenWeatherMap
+            console.log("[" + id + "] Timelimit exceeded, update data...");
+            //--
+            console.log("[" + id + "] Prepare to send http request...");
+            var request = url + "weather?id=" + id + "&units=metric&appid=" + apiKey;
+            http.get(request, function(data) {
+              console.log("[" + id + "] Data from API = [" + JSON.stringify(data) + "]");
+              console.log("[" + id + "] Save to database...");
+              entry.data = JSON.stringify(data);
+              entry.save(function(err) {
+                console.log("[" + id + "] Update entry with API data");
+                responseData.push(JSON.parse(entry.data));
+                console.log("[" + id + "] Return to next entry");
+                callback();
+              });
+            });
+            //--
+          } else {
+            console.log("[" + id + "] No need to update data");
+            responseData.push(JSON.parse(entry.data));
+            console.log("[" + id + "] Return to next entry");
+            callback();
+          }
         } else {
           console.log("[" + id + "] Nothing here");
           console.log("[" + id + "] Prepare to send http request...");
-          var request = url + "weather?id=" + city + "&units=metric&appid=" + apiKey;
+          var request = url + "weather?id=" + id + "&units=metric&appid=" + apiKey;
           http.get(request, function(data) {
-            console.log("[" + id + "] Data from API = [" + data + "]");
+            console.log("[" + id + "] Data from API = [" + JSON.stringify(data) + "]");
             console.log("[" + id + "] Save to database...");
             WeatherData.create({
-              owm_id: city, // create new instance
-              data: data // data from http api call
+              owm_id: id, // create new instance
+              data: JSON.stringify(data) // save json data from api as String
             }, function(err, newEntry) {
-              console.log("[" + city + "] New data from OWM saved!");
+              if (err) console.log("[" + id + "] Error " + err);
+              console.log("[" + id + "] New data from OWM saved!");
+              console.log("[" + id + "] newEntry = " + JSON.stringify(newEntry));
               console.log("[" + id + "] Return to next entry");
-              responseData.push(newEntry.data);
+              responseData.push(JSON.parse(newEntry.data));
               callback();
             });
           });
@@ -56,74 +83,9 @@ router.route("/")
     function(err) {
       console.log("Everything is processed!");
       console.log("responseData = " + JSON.stringify(responseData));
-      res.json(responseData);
+      res.json({"list": responseData});
     }
   );
-  /*
-  for (var i = 0; i < cities.length; i++) {
-    var city = cities[i];
-    console.log("Check place with code = [" + city + "]");
-    WeatherData.find({owm_id: city}).limit(1).exec(function(err, data) {
-      if (data.length > 0) {
-        console.log("[" + city + "] Found entry!");
-        console.log("[" + city + "] data = " + JSON.stringify(data));
-      } else {
-        console.log("[" + city + "] Nothing here");
-        console.log("[" + city + "] Prepare to send http request...");
-        var request = url + "weather?id=" + city + "&units=metric&appid=" + apiKey;
-        http_request.get(request, function(data) {
-          console.log("[" + city + "] Receive data from OpenWeatherMap, save");
-          WeatherData.create({
-            owm_id: city, // create new instance
-            data: data // data from http api call
-          });
-        })
-      }
-    })
-  }
-  */
-  /*
-  WeatherData.find({
-    cityCode: {$in: [cities]}
-  }).exec(function(err, data) {
-    if (err) res.send(err);
-    console.log("Found in database: " + data);
-  });
-  */
-  //--
-  /*
-  var request = url + "group?id=" + places + "&units=metric&appid=" + apiKey;
-  http.get(request, function(response) {
-    var statusCode = response.statusCode;
-    var contentType = response.headers["content-type"];
-    var error; // check for errors
-    if (statusCode != 200) {
-      error = new Error(
-        "Request Failed.\n" +
-        "Status Code: ${statusCode}");
-    } else if (!/^application\/json/.test(contentType)) {
-      error = new Error(
-        "Invalid content-type.\n" +
-        "Expected application/json but received ${contentType}");
-    }
-    if (error) { // if not undefined
-      console.log(error.message);
-      response.resume();
-      return;
-    }
-    response.setEncoding("utf8");
-    var rawData = ""; // JSON
-    // receive another chunk of data
-    response.on("data", function(chunk) {
-      rawData += chunk;
-    });
-    // the whole response has been recieved
-    response.on("end", function() {
-      var parsedData = JSON.parse(rawData);
-      res.json(parsedData);
-    })
-  });
-  */
 });
 // export routes
 module.exports = router;
