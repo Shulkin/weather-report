@@ -26,8 +26,9 @@ router.route("/")
     // function that each item is passed to
     function(id, callback) {
       console.log("Check place with code = [" + id + "]");
-      WeatherData.find({owm_id: id}).limit(1).exec(function(err, entry) {
-        if (entry.length > 0) {
+      WeatherData.find({owm_id: id}).limit(1).exec(function(err, list) {
+        if (list.length > 0) {
+          var entry = list[0];
           console.log("[" + id + "] Found entry!");
           console.log("[" + id + "] Data = " + JSON.stringify(entry));
           var updateTime = entry.updated_at;
