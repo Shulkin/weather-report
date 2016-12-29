@@ -18,18 +18,6 @@ angular.module("weather.data.service", [])
       return $http.post("/api/weather", data).then(function(response) {
         return response.data;
       });
-      /*
-      return $http.get(url + "group?id=" + data + "&units=metric" + "&appid=" + OWM_API_KEY).then(function(response) {
-        return response.data;
-      });
-      */
-    },
-    getForecastById: function(id) {
-      /*
-      return $http.get(url + "weather?id=" + id + "&units=metric" + "&appid=" + OWM_API_KEY).then(function(response) {
-        return response.data;
-      });
-      */
     },
     getWeatherIconUrl: function(iconCode) {
       return "http://openweathermap.org/img/w/" + iconCode + ".png";

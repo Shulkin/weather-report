@@ -13,7 +13,20 @@ var WeatherData = require("../models/weather-data");
 router.route("/")
 // get current weather in many cities (POST http://localhost:3000/api/weather)
 .post(function(req, res) {
-  var places = req.body.cities.toString();
+  var cities = req.body.cities;
+  var allPlaces = cities.toString();
+  console.log("Process POST request for [" + allPlaces + "]")
+  //--
+  console.log("Search weather data in MondoDB...")
+  WeatherData.find({
+    cityCode: {$in: [cities]}
+  }).exec(function(err, data) {
+    if (err) res.send(err);
+    console.log("Found in database: " + data);
+
+  })
+  //--
+  /*
   var request = url + "group?id=" + places + "&units=metric&appid=" + apiKey;
   http.get(request, function(response) {
     var statusCode = response.statusCode;
@@ -44,7 +57,8 @@ router.route("/")
       var parsedData = JSON.parse(rawData);
       res.json(parsedData);
     })
-  })
+  });
+  */
 });
 // export routes
 module.exports = router;
