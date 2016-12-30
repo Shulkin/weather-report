@@ -34,7 +34,7 @@ angular.module("ol3.map.service", [
       // add select interaction to click on markers
       var select = new ol.interaction.Select({
         condition: ol.events.condition.click,
-        multi: false // only one
+        multi: false // select one feature
       });
       map.addInteraction(select);
       select.on("select", function(e) {
@@ -50,7 +50,7 @@ angular.module("ol3.map.service", [
       // extract ids from cities array, as we only need them
       WeatherData.getWeatherById({places: Cities.getIds(cities)})
       .then(function(data) {
-        console.log("Server response\n" + JSON.stringify(data));
+        // console.log("Server response\n" + JSON.stringify(data));
         // parse JSON response
         var list = data.list;
         var features = []; // empty vector features
