@@ -30,12 +30,9 @@ angular.module("ol3.map.service", [
         })
       });
     },
-    loadWeather: function(places) {
-      var requestBody = {
-        // we only need places ids
-        cities: Cities.getIds(places)
-      };
-      WeatherData.getWeatherById(requestBody)
+    loadWeather: function(cities) {
+      // extract ids from cities array, as we only need them
+      WeatherData.getWeatherById({places: Cities.getIds(cities)})
       .then(function(data) {
         console.log("Server response\n" + JSON.stringify(data));
         // parse JSON response
