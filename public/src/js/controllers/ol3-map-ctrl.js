@@ -11,6 +11,7 @@ angular.module("ol3.map.ctrl", [])
       startLocation: [134.6, 45.3]
     });
     ol3Map.loadWeather(Cities.all());
+    ol3Map.addClick();
   }
   // === Start module ===
   init();

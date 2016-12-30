@@ -30,6 +30,22 @@ angular.module("ol3.map.service", [
         })
       });
     },
+    addClick: function(callback) {
+      // add select interaction to click on markers
+      var select = new ol.interaction.Select({
+        condition: ol.events.condition.click,
+        multi: false // only one
+      });
+      map.addInteraction(select);
+      select.on("select", function(e) {
+        var target = e.target;
+        target.getFeatures().forEach(function(feature) {
+          var raw = feature.get("weather");
+          // pass selected feature info to callback
+          callback(raw);
+        });
+      });
+    },
     loadWeather: function(cities) {
       // extract ids from cities array, as we only need them
       WeatherData.getWeatherById({places: Cities.getIds(cities)})
@@ -47,6 +63,10 @@ angular.module("ol3.map.service", [
           var marker = new ol.Feature({
             // create marker with corresponding coordinates
             geometry: new ol.geom.Point(ol.proj.transform([lon, lat], "EPSG:4326", "EPSG:3857")),
+            // write raw data to marker
+            weather: {
+              data: item
+            }
           });
           // set multiple styles
           marker.setStyle([
