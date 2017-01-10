@@ -30,6 +30,9 @@ angular.module("ol3.map.service", [
         })
       });
     },
+    updateSize: function() {
+      map.updateSize();
+    },
     addClick: function(callback) {
       // add select interaction to click on markers
       var select = new ol.interaction.Select({

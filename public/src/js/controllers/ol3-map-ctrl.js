@@ -13,6 +13,10 @@ angular.module("ol3.map.ctrl", [])
       vm.showMarkerInfo = data.length > 0;
       // parse as JSON in view
       vm.markerInfo = data;
+      // necessary to update map size
+      $timeout(function() {
+        ol3Map.updateSize();
+      }, 10);
     }, 10);
   }
   // constructor
