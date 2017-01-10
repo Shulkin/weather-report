@@ -50,7 +50,6 @@ angular.module("ol3.map.service", [
       // extract ids from cities array, as we only need them
       WeatherData.getWeatherById({places: Cities.getIds(cities)})
       .then(function(data) {
-        // console.log("Server response\n" + JSON.stringify(data));
         // parse JSON response
         var list = data.list;
         var features = []; // empty vector features

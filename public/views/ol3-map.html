@@ -48,6 +48,16 @@
           <td>Humidity</td>
           <td>{{info.data.main.humidity}} %</td>
         </tr>
+        <tr>
+          <!-- Sunrise time -->
+          <td>Sunrise</td>
+          <td>{{info.data.sys.sunrise * 1000 | date: "shortTime"}}</td>
+        </tr>
+        <tr>
+          <!-- Sunset time -->
+          <td>Sunset</td>
+          <td>{{info.data.sys.sunset * 1000 | date: "shortTime"}}</td>
+        </tr>
       </table>
     </div>
   </div>
