@@ -34,16 +34,16 @@ angular.module("ol3.map.service", [
       // add select interaction to click on markers
       var select = new ol.interaction.Select({
         condition: ol.events.condition.click,
-        multi: false // select one feature
+        multi: false // select one feature by default
       });
       map.addInteraction(select);
       select.on("select", function(e) {
-        var target = e.target;
-        target.getFeatures().forEach(function(feature) {
-          var raw = feature.get("weather");
-          // pass selected feature info to callback
-          callback(raw);
+        var selectedFeatures = [];
+        e.target.getFeatures().forEach(function(feature) {
+          selectedFeatures.push(feature.get("weather"));
         });
+        // pass selected feature info to callback
+        callback(selectedFeatures);
       });
     },
     loadWeather: function(cities) {
