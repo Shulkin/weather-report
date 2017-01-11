@@ -19,6 +19,11 @@ angular.module("weather.data.service", [])
         return response.data;
       });
     },
+    getForecastById: function(id) {
+      return $http.get("/api/forecast/" + id).then(function(response) {
+        return response.data;
+      });
+    },
     getWeatherIconUrl: function(iconCode) {
       return "http://openweathermap.org/img/w/" + iconCode + ".png";
     }

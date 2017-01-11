@@ -33,4 +33,7 @@ angular.module("ol3.map.ctrl", [])
   // === Public ===
   // get icon url for weather marker in info tab
   vm.getIcon = WeatherData.getWeatherIconUrl;
+  vm.loadForecast = function() {
+    console.log("loadForecast");
+  };
 }]);

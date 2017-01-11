@@ -90,6 +90,14 @@ angular.module("ol3.map.service", [
       }, function(err) {
         console.log("Error " + err);
       });
+    },
+    loadForecast: function(cityId, callback) {
+      WeatherData.getForecastById(cityId)
+      .then(function(data) {
+        callback(data);
+      }, function(err) {
+        console.log("Error " + err);
+      });
     }
   };
 }]);

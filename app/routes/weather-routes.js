@@ -14,14 +14,14 @@ var timelimit = 3.6e6; // an hour
 // get mongoose model
 var WeatherData = require("../models/weather-data");
 // helper function
-function getOpenWeatherMapApiUrl(id) {
+function getOpenWeatherMapApiUrl(id) { // for current weather api
   return url + "weather?id=" + id + "&units=metric&appid=" + apiKey;
 }
 // process api/weather
 router.route("/")
 // get current weather in many places (POST http://localhost:3000/api/weather)
 .post(function(req, res) {
-  console.log("Process POST request for [" + req.body.places.toString() + "]");
+  console.log("Process POST get weather request for [" + req.body.places.toString() + "]");
   var response = []; // list for weather data
   async.each(
     req.body.places, // array of items
@@ -59,7 +59,7 @@ router.route("/")
             }, function(err, newEntry) {
               if (err) console.log("[" + id + "] Error " + err);
               console.log("[" + id + "] Save new data success!");
-              // console.log("[" + id + "] Save new data success! newEntry = " + JSON.stringify(newEntry));
+              // console.log("[" + id + "] newEntry = " + JSON.stringify(newEntry));
               response.push(JSON.parse(newEntry.data));
               callback();
             });
