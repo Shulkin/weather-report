@@ -13,23 +13,27 @@
       </div>
       <div class="panel-body">
         <uib-tabset active="active">
-          <uib-tab index="0" heading="Current">Current weather</uib-tab>
-          <uib-tab index="1" heading="Forecast">Weather forecast</uib-tab>
+          <uib-tab index="0" heading="Current" ng-click="map.showWeatherTab()">
+            <div>
+              <!-- Weather icon -->
+              <img ng-src="{{map.getIcon(info.data.weather[0].icon)}}">
+              <!-- Temperature -->
+              {{info.data.main.temp}} °C
+            </div>
+            <!-- Brief description -->
+            <p>{{info.data.weather[0].description}}</p>
+            <!-- Collection date -->
+            <!-- Multiply by 1000 to use seconds! -->
+            <p>get at {{info.data.dt * 1000 | date: "medium"}}</p>
+          </uib-tab>
+          <uib-tab index="1" heading="Forecast" ng-click="map.showForecastTab()">
+            Weather forecast
+          </uib-tab>
         </uib-tabset>
-        <div>
-          <!-- Weather icon -->
-          <img ng-src="{{map.getIcon(info.data.weather[0].icon)}}">
-          <!-- Temperature -->
-          {{info.data.main.temp}} °C
-        </div>
-        <!-- Brief description -->
-        <p>{{info.data.weather[0].description}}</p>
-        <!-- Collection date -->
-        <!-- Multiply by 1000 to use seconds! -->
-        <p>get at {{info.data.dt * 1000 | date: "medium"}}</p>
       </div>
       <!-- Table with complete info, outside panel body -->
-      <table class="table table-striped table-bordered">
+      <table class="table table-striped table-bordered" ng-show="map.weatherTab">
+        <!-- Show only if weatherTab is true, i.e. current weather -->
         <tr>
           <!-- Wind speed and direction -->
           <td>Wind</td>

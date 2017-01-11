@@ -11,6 +11,8 @@ angular.module("ol3.map.ctrl", [])
     $timeout(function() {
       // show tab if user select any marker
       vm.showMarkerInfo = data.length > 0;
+      // current weather tab active by default
+      vm.weatherTab = true;
       // parse as JSON in view
       vm.markerInfo = data;
       // necessary to update map size
@@ -33,4 +35,13 @@ angular.module("ol3.map.ctrl", [])
   // === Public ===
   // get icon url for weather marker in info tab
   vm.getIcon = WeatherData.getWeatherIconUrl;
+  // switch info tabs
+  vm.showWeatherTab = function() {
+    // current weather
+    vm.weatherTab = true;
+  };
+  vm.showForecastTab = function() {
+    // 3 days forecast
+    vm.weatherTab = false;
+  };
 }]);
