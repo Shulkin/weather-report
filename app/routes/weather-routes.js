@@ -31,13 +31,13 @@ router.route("/")
       WeatherData.find({owm_id: id}).limit(1).exec(function(err, list) {
         if (list.length > 0) {
           var entry = list[0];
-          console.log("[" + id + "] Found entry = " + JSON.stringify(entry));
+          // console.log("[" + id + "] Found entry = " + JSON.stringify(entry));
           if ((new Date()).getTime() - entry.updated_at.getTime() > timelimit) {
             // more than hour passed since last update from OpenWeatherMap
             console.log("[" + id + "] Update data from OpenWeatherMap");
             http.get(getOpenWeatherMapApiUrl(id), function(data) {
               entry.data = JSON.stringify(data);
-              console.log("[" + id + "] Data from API = " + entry.data);
+              // console.log("[" + id + "] Data from API = " + entry.data);
               entry.save(function(err) {
                 console.log("[" + id + "] Update sucess!");
                 response.push(JSON.parse(entry.data));
@@ -52,13 +52,14 @@ router.route("/")
         } else {
           console.log("[" + id + "] Get first data from OpenWeatherMap");
           http.get(getOpenWeatherMapApiUrl(id), function(data) {
-            console.log("[" + id + "] Data from API = " + JSON.stringify(data));
+            // console.log("[" + id + "] Data from API = " + JSON.stringify(data));
             WeatherData.create({
               owm_id: id, // create new instance
               data: JSON.stringify(data) // save json data from api as String
             }, function(err, newEntry) {
               if (err) console.log("[" + id + "] Error " + err);
-              console.log("[" + id + "] Save new data success! newEntry = " + JSON.stringify(newEntry));
+              console.log("[" + id + "] Save new data success!");
+              // console.log("[" + id + "] Save new data success! newEntry = " + JSON.stringify(newEntry));
               response.push(JSON.parse(newEntry.data));
               callback();
             });

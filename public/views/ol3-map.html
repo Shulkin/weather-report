@@ -3,8 +3,7 @@
   <div ng-class="map.showMarkerInfo ? 'col-xs-8' : 'col-xs-12'">
     <div id="map"></div>
   </div>
-  <!-- <div ng-class="map.showMarkerInfo ? 'col-xs-4' : 'col-xs-0'" ng-show="map.showMarkerInfo"> -->
-  <div ng-class="map.showMarkerInfo ? 'col-xs-4' : 'col-xs-0'">
+  <div class="col-xs-4" ng-show="map.showMarkerInfo">
     <!-- We can show multiple markers -->
     <div class="panel panel-default" ng-repeat="info in map.markerInfo">
       <div class="panel-heading">

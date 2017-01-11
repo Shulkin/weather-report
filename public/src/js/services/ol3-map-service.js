@@ -2,8 +2,8 @@ angular.module("ol3.map.service", [
   // style for markers on map
   "marker.style.service",
 ])
-.factory("ol3Map", ["Cities", "WeatherData", "Marker",
-  function(Cities, WeatherData, Marker) {
+.factory("ol3Map", ["$timeout", "Cities", "WeatherData", "Marker",
+  function($timeout, Cities, WeatherData, Marker) {
   // === Private ===
   var map = {}; // ol.Map
   var defaults = { // options
@@ -31,7 +31,10 @@ angular.module("ol3.map.service", [
       });
     },
     updateSize: function() {
-      map.updateSize();
+      // $timeout to $apply
+      $timeout(function() {
+        map.updateSize();
+      }, 10);
     },
     addClick: function(callback) {
       // add select interaction to click on markers
