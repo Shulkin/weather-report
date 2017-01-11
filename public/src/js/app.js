@@ -1,6 +1,8 @@
 var app = angular.module("app", [
   // states router
   "ui.router",
+  // ui bootstrap
+  "ui.bootstrap",
   // app states
   "app.routes",
   // map controller
