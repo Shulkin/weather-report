@@ -30,6 +30,8 @@
           <uib-tab index="1" heading="Forecast"
             select="map.loadForecast(info.data.id)">
             <!-- Loaded data will do to forecast table -->
+            <div class="loader" ng-show="map.showForecastLoader">
+            </div>
           </uib-tab>
         </uib-tabset>
       </div>
@@ -72,7 +74,7 @@
       </table>
       <!-- Forecast table -->
       <table class="table table-striped table-bordered"
-        ng-show="map.infoTab === 1"> <!-- Forecast only! -->
+        ng-show="map.infoTab === 1 && map.markerForecastInfo !== null"> <!-- Forecast only! -->
         <!-- Parse JSON map.markerForecastInfo -->
         <tr> <!-- Columns headers -->
           <th><!--Nothing, time column --></th>

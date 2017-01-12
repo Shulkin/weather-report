@@ -34,9 +34,18 @@ angular.module("ol3.map.ctrl", [])
   // get icon url for weather marker in info tab
   vm.getIcon = WeatherData.getWeatherIconUrl;
   vm.loadForecast = function(cityId) {
-    ol3Map.loadForecast(cityId, function(data) {
-      // parse JSON in view
-      vm.markerForecastInfo = data;
-    });
+    // start loading forecast data
+    vm.markerForecastInfo = null; // clear previous data
+    vm.showForecastLoader = true; // show loader
+    $timeout(function() {
+      ol3Map.loadForecast(cityId, function(data) {
+        // parse JSON in view
+        vm.markerForecastInfo = data;
+        vm.showForecastLoader = false;
+      }, function(err) {
+        // handle error on loading forecast
+        vm.showForecastLoader = false;
+      });
+    }, 2000); // for test!
   };
 }]);

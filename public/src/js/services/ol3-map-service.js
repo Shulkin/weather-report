@@ -97,6 +97,7 @@ angular.module("ol3.map.service", [
         callback(data);
       }, function(err) {
         console.log("Error " + err);
+        callback(null);
       });
     }
   };
