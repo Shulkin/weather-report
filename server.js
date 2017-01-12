@@ -26,6 +26,7 @@ app.use(bodyParser.json({type: "application/vnd.api+json"}));
 app.use(methodOverride());
 // load api routes
 app.use("/api/weather", require("./app/routes/weather-routes"));
+app.use("/api/forecast", require("./app/routes/forecast-routes"));
 // default route to index.html
 app.get("*", function(req ,res) {
   // anything else is up to Angular

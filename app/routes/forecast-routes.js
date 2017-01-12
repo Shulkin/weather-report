@@ -1,4 +1,3 @@
-var async = require("async");
 var express = require("express");
 var router = express.Router();
 var config = require("../../config/config");
@@ -14,7 +13,8 @@ function getOpenWeatherMapApiUrl(id) { // for forecast api
 router.route("/:id")
 // get forecast by place id (GET http://localhost:3000/api/forecast/id)
 .get(function(req, res) {
-  console.log("Process GET forecast request for [" + req.params.id + "]");
+  var id = req.params.id;
+  console.log("Process GET forecast request for [" + id + "]");
   ForecastData.find({owm_id: id}).limit(1).exec(function(err, list) {
     if (list.length > 0) { // forecast in database
       var entry = list[0];
@@ -27,14 +27,14 @@ router.route("/:id")
           console.log("[" + id + "] Data from API = " + entry.data);
           entry.save(function(err) {
             console.log("[" + id + "] Update sucess!");
-            response.push(JSON.parse(entry.data));
-            callback();
+            // response
+            res.json({"forecast": JSON.parse(entry.data)});
           });
         });
       } else {
         console.log("[" + id + "] Return entry from database");
-        response.push(JSON.parse(entry.data));
-        callback();
+        // response
+        res.json({"forecast": JSON.parse(entry.data)});
       }
     } else { // no forecast found
       console.log("[" + id + "] Get first forecast data from OpenWeatherMap");
@@ -47,8 +47,8 @@ router.route("/:id")
           if (err) console.log("[" + id + "] Error " + err);
           console.log("[" + id + "] Save new data success!");
           console.log("[" + id + "] newEntry = " + JSON.stringify(newEntry));
-          response.push(JSON.parse(newEntry.data));
-          callback();
+          // response
+          res.json({"forecast": JSON.parse(newEntry.data)});
         });
       });
     }

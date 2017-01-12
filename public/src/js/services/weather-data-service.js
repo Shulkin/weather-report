@@ -15,11 +15,13 @@ angular.module("weather.data.service", [])
   // === Public ===
   return {
     getWeatherById: function(data) {
+      // data - array of places ids
       return $http.post("/api/weather", data).then(function(response) {
         return response.data;
       });
     },
     getForecastById: function(id) {
+      // get forecast for single place
       return $http.get("/api/forecast/" + id).then(function(response) {
         return response.data;
       });

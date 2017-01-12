@@ -27,8 +27,9 @@
             <!-- Multiply by 1000 to use seconds! -->
             <p>get at {{info.data.dt * 1000 | date: "medium"}}</p>
           </uib-tab>
-          <uib-tab index="1" heading="Forecast" select="map.loadForecast()">
-            Forecast data...
+          <uib-tab index="1" heading="Forecast"
+            select="map.loadForecast(info.data.id)">
+            {{map.markerForecastInfo}}
           </uib-tab>
         </uib-tabset>
       </div>

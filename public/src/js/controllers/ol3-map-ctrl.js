@@ -11,7 +11,7 @@ angular.module("ol3.map.ctrl", [])
     $timeout(function() {
       // show tab if user select any marker
       vm.showMarkerInfo = data.length > 0;
-      // parse as JSON in view
+      // parse JSON in view
       vm.markerInfo = data;
       // necessary to update map size
       ol3Map.updateSize();
@@ -33,7 +33,10 @@ angular.module("ol3.map.ctrl", [])
   // === Public ===
   // get icon url for weather marker in info tab
   vm.getIcon = WeatherData.getWeatherIconUrl;
-  vm.loadForecast = function() {
-    console.log("loadForecast");
+  vm.loadForecast = function(cityId) {
+    ol3Map.loadForecast(cityId, function(data) {
+      // parse JSON in view
+      vm.markerForecastInfo = data;
+    });
   };
 }]);
