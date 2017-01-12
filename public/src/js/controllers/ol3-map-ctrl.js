@@ -35,17 +35,21 @@ angular.module("ol3.map.ctrl", [])
   vm.getIcon = WeatherData.getWeatherIconUrl;
   vm.loadForecast = function(cityId) {
     // start loading forecast data
-    vm.markerForecastInfo = null; // clear previous data
+    vm.showForecastTable = false; // hide previous data before load
     vm.showForecastLoader = true; // show loader
     $timeout(function() {
       ol3Map.loadForecast(cityId, function(data) {
         // parse JSON in view
-        vm.markerForecastInfo = data;
+        vm.showForecastTable = true;
         vm.showForecastLoader = false;
+        vm.markerForecastInfo = data;
       }, function(err) {
         // handle error on loading forecast
         vm.showForecastLoader = false;
+        /*
+         * Place error message
+         */
       });
-    }, 2000); // for test!
+    }, 500);
   };
 }]);
