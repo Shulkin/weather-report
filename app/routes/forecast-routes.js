@@ -7,7 +7,7 @@ var apiKey = config.owmApiKey;
 var timelimit = 3.6e6; // an hour
 var ForecastData = require("../models/forecast-data");
 function getOpenWeatherMapApiUrl(id) { // for forecast api
-  return url + "forecast?id=" + id + "&appid=" + apiKey;
+  return url + "forecast?id=" + id + "&units=metric&appid=" + apiKey;
 }
 // process api/forecast/id
 router.route("/:id")

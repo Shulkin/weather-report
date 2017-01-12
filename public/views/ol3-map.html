@@ -1,9 +1,9 @@
 <div class="row">
   <!-- If info tab not shown, map takes all width -->
-  <div ng-class="map.showMarkerInfo ? 'col-xs-8' : 'col-xs-12'">
+  <div ng-class="map.showMarkerInfo ? 'col-xs-6' : 'col-xs-12'">
     <div id="map"></div>
   </div>
-  <div class="col-xs-4" ng-show="map.showMarkerInfo">
+  <div class="col-xs-6" ng-show="map.showMarkerInfo">
     <!-- We can show multiple markers -->
     <div class="panel panel-default" ng-repeat="info in map.markerInfo">
       <div class="panel-heading">
@@ -19,7 +19,7 @@
               <!-- Weather icon -->
               <img ng-src="{{map.getIcon(info.data.weather[0].icon)}}">
               <!-- Temperature -->
-              {{info.data.main.temp}} °C
+              {{info.data.main.temp | number: 0}} °C
             </div>
             <!-- Brief description -->
             <p>{{info.data.weather[0].description}}</p>
@@ -40,24 +40,24 @@
           <!-- Wind speed and direction -->
           <td>Wind</td>
           <td>
-            {{info.data.wind.speed}} m/s,
-            {{info.data.wind.deg}} degrees
+            {{info.data.wind.speed | number: 0}} m/s,
+            {{info.data.wind.deg | number: 0}} degrees
           </td>
         </tr>
         <tr>
           <!-- Clouds percent -->
           <td>Cloudiness</td>
-          <td>{{info.data.clouds.all}} %</td>
+          <td>{{info.data.clouds.all | number: 0}} %</td>
         </tr>
         <tr>
           <!-- Atmospheric pressure on the sea level -->
           <td>Pressure</td>
-          <td>{{info.data.main.pressure}} hPa</td>
+          <td>{{info.data.main.pressure | number: 0}} hPa</td>
         </tr>
         <tr>
           <!-- Air humidity -->
           <td>Humidity</td>
-          <td>{{info.data.main.humidity}} %</td>
+          <td>{{info.data.main.humidity | number: 0}} %</td>
         </tr>
         <tr>
           <!-- Sunrise time -->
@@ -78,22 +78,23 @@
           <th><!--Nothing, time column --></th>
           <th>Weather</th>
           <th>Temperature</th>
-          <th>Wind speed</th>
-          <th>Wind direction</th>
+          <th>Wind</th>
           <th>Pressure</th>
           <th>Humidity</th>
         </tr>
         <tr ng-repeat="forecast in map.markerForecastInfo.forecast.list">
-          <td>{{forecast.dt}}</td>
+          <td>
+            {{forecast.dt * 1000 | date: "d MMM, EEEE h:mm a"}}
+          </td>
           <td>
             <img ng-src="{{map.getIcon(forecast.weather[0].icon)}}"
-              alt="{{forecast.weather[0].description}}">
+              alt="{{forecast.weather[0].description}}"
+              title="{{forecast.weather[0].description}}">
           </td>
-          <td>{{forecast.main.temp}} °C</td>
-          <td>{{forecast.wind.speed}} m/s</td>
-          <td>{{forecast.wind.deg}} degrees</td>
-          <td>{{forecast.main.pressure}} hPa</td>
-          <td>{{forecast.main.humidity}} %</td>
+          <td>{{forecast.main.temp | number: 0}} °C</td>
+          <td>{{forecast.wind.speed | number: 0}} m/s</td>
+          <td>{{forecast.main.pressure | number: 0}} hPa</td>
+          <td>{{forecast.main.humidity | number: 0}} %</td>
         </tr>
       </table>
     </div>
